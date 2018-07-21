@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import UserForm from './UserForm.js';
+import axios from 'axios'
 
 
 
@@ -8,21 +9,57 @@ class App extends React.Component {
    constructor(props){
      super(props);
      this.state = {
-       username: 'ralph534',
+       username: '',
        userData: [],
-       userRepo: [],
+       userRepo: null,
        perPage: 5
      }
    }
 
 
+   // Getting users data from GitHub
+   // componentDidMount(){
+   //   axios.get('https://api.github.com/users/'+this.state.username+'?client_id='+this.props.clientId+'&client_secret='+this.props.clientSecret,)
+   //   .then(function(response){
+   //     console.log(response)
+   //   })
+   //   .catch(function(error){
+   //     console.log(error)
+   //   })
+   // }
+
+
+   getUser(e){
+    e.preventDefault();   /// <====  Prevent the page from reloading
+    const user = e.target.elements.username.value;  ///  <==== Targeting the username from element imput
+    axios.get(`https://api.github.com/users/${user}`)  /// request from Url with `${user}` back ticks
+    .then(function(res){    /// then with the results => (res)
+      const userrepo = res.data.public_repos;   /// creating var for users repos and nesting though the data for it
+      console.log(userrepo)
+    })
+    .catch(function(error){
+        console.log(error)
+      })
+   }
+
+
   render() {
     return(
-      <div>
-      <h1>{this.state.username}</h1>
-      <h1>{this.state.username}</h1>
-      <h1>{this.state.username}</h1>
-      </div>
+    <div>
+      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a className="navbar-brand" href="">GitHub</a>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+        </div>
+      </nav>
+      <UserForm />
+      <UserForm />
+      <UserForm
+       getUser={this.getUser}
+      />
+    </div>
     )
   }
 }
