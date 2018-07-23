@@ -11,7 +11,8 @@ class App extends React.Component {
      this.state = {
        username: '',
        userData: [],
-       userRepo: null,
+       userRepo: '',
+       userUrl: '',
        perPage: 5
      }
    }
@@ -29,17 +30,23 @@ class App extends React.Component {
    // }
 
 
-   getUser(e){
+   getUser = (e) => {
     e.preventDefault();   /// <====  Prevent the page from reloading
-    const user = e.target.elements.username.value;  ///  <==== Targeting the username from element imput
-    axios.get(`https://api.github.com/users/${user}`)  /// request from Url with `${user}` back ticks
-    .then(function(res){    /// then with the results => (res)
-      const userrepo = res.data.public_repos;   /// creating var for users repos and nesting though the data for it
-      console.log(userrepo)
-    })
-    .catch(function(error){
-        console.log(error)
+    const user = e.target.elements.username.value; ///  <==== Targeting the username from element imput
+    if(user){
+      axios.get(`https://api.github.com/users/${user}`)  /// request from Url with `${user}` back ticks
+      .then((res) => {    /// then with the results => (res)
+        const userRepo = res.data.public_repos;
+        const userUrl =  res.data.url /// creating var for users repos and nesting though the data for it
+        this.setState({
+            userRepo: userRepo,
+            userUrl: userUrl
+        });
       })
+      .catch(function(error){
+          console.log(error)
+        })
+    }  ///  <==== Targeting the username from element imput
    }
 
 
@@ -59,6 +66,8 @@ class App extends React.Component {
       <UserForm
        getUser={this.getUser}
       />
+      {this.state.userRepo ? <p>Number of repos: {this.state.userRepo}</p> : <p>Please enter a username</p>}
+      {this.state.userUrl ? <p>Number of Url: {this.state.userUrl}</p> : <p>Please enter a username</p>}
     </div>
     )
   }
