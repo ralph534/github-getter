@@ -9,13 +9,12 @@ var UserForm = function(props){
   var srchStyle = {
     margin: "20px auto",
     display: "block"
+}
 
-
-  }
 
     return(
       <form onSubmit={props.getUser}>
-         <input style={srchStyle} type="text" name="username"/>
+         <input type="text" name="username"/>
          <button>Submit</button>
       </form>
     )

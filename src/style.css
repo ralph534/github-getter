@@ -1,0 +1,23 @@
+.badge {
+  margin-right: 30px;
+}
+
+.btn {
+  margin-top: 20px;
+}
+
+.panel {
+  margin-top: 80px;
+}
+
+form {
+  text-align: center;
+}
+
+input {
+  margin-right: 10px;
+}
+
+button {
+  border-radius: 45%;
+}

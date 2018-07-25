@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import UserForm from './UserForm.js';
+import Profile from './Profile.js'
 import axios from 'axios'
+import '../style.css'
 
 
 
@@ -10,9 +12,10 @@ class App extends React.Component {
      super(props);
      this.state = {
        username: '',
-       userData: [],
+       userData: '',
        userRepo: '',
        userUrl: '',
+       userLoc: '',
        perPage: 5
      }
    }
@@ -35,13 +38,13 @@ class App extends React.Component {
     const user = e.target.elements.username.value; ///  <==== Targeting the username from element imput
     if(user){
       axios.get(`https://api.github.com/users/${user}`)  /// request from Url with `${user}` back ticks
-      .then((res) => {    /// then with the results => (res)
-        const userRepo = res.data.public_repos;
-        const userUrl =  res.data.url /// creating var for users repos and nesting though the data for it
+      .then((res) =>{    /// then with the results => (res)
+        const userData = res.data;  /// creating var for users repos and nesting though the data for it
+        // console.log(userData)
         this.setState({
-            userRepo: userRepo,
-            userUrl: userUrl
+            userData: userData
         });
+        console.log(userData);
       })
       .catch(function(error){
           console.log(error)
@@ -53,21 +56,11 @@ class App extends React.Component {
   render() {
     return(
     <div>
-      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a className="navbar-brand" href="">GitHub</a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarsExampleDefault">
-        </div>
-      </nav>
-      <UserForm />
-      <UserForm />
       <UserForm
        getUser={this.getUser}
       />
-      {this.state.userRepo ? <p>Number of repos: {this.state.userRepo}</p> : <p>Please enter a username</p>}
-      {this.state.userUrl ? <p>Number of Url: {this.state.userUrl}</p> : <p>Please enter a username</p>}
+      <Profile
+      userData = {this.state.userData} />
     </div>
     )
   }
