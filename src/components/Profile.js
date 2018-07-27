@@ -40,6 +40,7 @@ var Profile = function(props) {
                       {(props.userData) ? ( <li className="list-group-item"><strong>Username:</strong> {props.userData.login}</li> ) : (<p></p> )}
                       {(props.userData) ? ( <li className="list-group-item"><strong>Location:</strong> {props.userData.location}</li> ) : (<p></p> )}
                       {(props.userData) ? ( <li className="list-group-item"><strong>Email Address:</strong> {props.userData.email}</li> ) : (<p></p> )}
+                      <li>{props.repos_url}</li>
 
                       </ul>
                     </div>

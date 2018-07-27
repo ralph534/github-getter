@@ -5,9 +5,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "latest-version": "^4.0.0",
+    "moment": "^2.22.2",
     "npm": "^6.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-moment": "^0.7.9",
     "react-scripts": "1.1.4"
   },
   "scripts": {

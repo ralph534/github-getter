@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import UserForm from './UserForm.js';
 import Profile from './Profile.js'
+import SortedList from './SortedList.js'
+import Moment from 'react-moment';
 import axios from 'axios'
 import '../style.css'
 
@@ -13,10 +15,9 @@ class App extends React.Component {
      this.state = {
        username: '',
        userData: '',
-       userRepo: '',
-       userUrl: '',
-       userLoc: '',
-       perPage: 5
+       userRepo: [],
+       perPage: 5,
+       repitems: null
      }
    }
 
@@ -32,7 +33,7 @@ class App extends React.Component {
    //   })
    // }
 
-
+   //
    getUser = (e) => {
     e.preventDefault();   /// <====  Prevent the page from reloading
     const user = e.target.elements.username.value; ///  <==== Targeting the username from element imput
@@ -49,8 +50,17 @@ class App extends React.Component {
       .catch(function(error){
           console.log(error)
         })
-    }  ///  <==== Targeting the username from element imput
+    }
+
+    axios.get(`https://api.github.com/users/${user}/repos`)
+    .then(response => this.setState({
+      repitems : response.data
+      .filter(({fork}) => fork === false)
+      .sort((b, a) => (a.watchers_count + a.forks_count) - (b.watchers_count + b.forks_count)).slice(0,10)
+      })).catch((err) => { console.log(err); });
    }
+
+
 
 
   render() {
@@ -61,6 +71,9 @@ class App extends React.Component {
       />
       <Profile
       userData = {this.state.userData} />
+      Own Repositories:
+        <SortedList repitems={this.state.repitems}/>
+        <hr></hr>
     </div>
     )
   }
