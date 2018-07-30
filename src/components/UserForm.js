@@ -11,7 +11,6 @@ var UserForm = function(props){
     display: "block"
 }
 
-
     return(
       <form onSubmit={props.getUser}>
          <input type="text" name="username"/>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import UserForm from './UserForm.js';
 import Profile from './Profile.js'
-import SortedList from './SortedList.js'
+import RepoSection from './RepoSection.js'
 import Moment from 'react-moment';
 import axios from 'axios'
 import '../style.css'
@@ -55,8 +55,8 @@ class App extends React.Component {
     axios.get(`https://api.github.com/users/${user}/repos`)
     .then(response => this.setState({
       repitems : response.data
-      .filter(({fork}) => fork === false)
-      .sort((b, a) => (a.watchers_count + a.forks_count) - (b.watchers_count + b.forks_count)).slice(0,10)
+      // .filter(({fork}) => fork === false)
+      // .sort((b, a) => (a.watchers_count + a.forks_count) - (b.watchers_count + b.forks_count)).slice(0,7)
       })).catch((err) => { console.log(err); });
    }
 
@@ -70,9 +70,9 @@ class App extends React.Component {
        getUser={this.getUser}
       />
       <Profile
-      userData = {this.state.userData} />
-      Own Repositories:
-        <SortedList repitems={this.state.repitems}/>
+      userData = {this.state.userData}/>
+
+        <RepoSection repitems={this.state.repitems}/>
         <hr></hr>
     </div>
     )

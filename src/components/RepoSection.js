@@ -2,9 +2,13 @@ import React from 'react';
 import Moment from 'react-moment';
 
 
-var SortedList = function(props){
+var RepoSection = function(props){
   if (props.repitems) {
     return (
+      <div>
+      <div>
+      Repositories:
+      </div>
         <ul>
           {props.repitems.map((repitem) =>
             <li key={repitem.id}>
@@ -22,9 +26,10 @@ var SortedList = function(props){
             </li>
           )}
         </ul>
+        </div>
       )
   } else { return null;}
   };
 
-  
-export default SortedList;
+
+export default RepoSection;
